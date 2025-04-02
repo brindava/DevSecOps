@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .quiz-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .quiz-container h2 {
+            margin-bottom: 20px;
+        }
+        .progress-container {
+            margin-bottom: 20px;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .progress-bar-inner {
+            height: 20px;
+            background-color: #007BFF;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .timer {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #dc3545;
+        }
+        .quiz-container form button {
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .quiz-container form button:hover {
+            background-color: #0056b3;
+        }
+        .back-button-container {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .back-button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .logout-container {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .logout-button {
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h2>Quiz Questions</h2>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-bar-inner" id="progress-bar"></div>
+            </div>
+        </div>
+        <div class="timer" id="timer">Time Left: 10:00</div>
+        <form method="POST" action="{% url 'quiz_result' %}">
+            {% csrf_token %}
+            {% for question in questions %}
+                <div>
+                    <h3>{{ question.text }}</h3>
+                    <ul>
+                        {% for choice in question.choices.all %}
+                            <li>
+                                <input type="radio" name="question_{{ question.id }}" value="{{ choice.id }}" class="quiz-option">
+                                {{ choice.text }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% empty %}
+                <p>No questions available.</p>
+            {% endfor %}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div class="back-button-container">
+        <a href="{% url 'quiz_home' %}" class="back-button">Back to Home</a>
+    </div>
+    <div class="logout-container">
+        <a href="{% url 'logout' %}" class="logout-button">Logout</a>
+    </div>
+    <script>
+        // Timer Logic
+        let timeLeft = 600; // 10 minutes in seconds
+        const timerElement = document.getElementById('timer');
+        const progressBar = document.getElementById('progress-bar');
+        const totalQuestions = document.querySelectorAll('.quiz-option').length / 4; // Assuming 4 choices per question
+        let answeredQuestions = 0;
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert('Time is up! Submitting the quiz...');
+                document.querySelector('form').submit();
+            }
+            timeLeft--;
+        }
+
+        const timerInterval = setInterval(updateTimer, 1000);
+
+        // Progress Bar Logic
+        document.querySelectorAll('.quiz-option').forEach(option => {
+            option.addEventListener('change', () => {
+                answeredQuestions = document.querySelectorAll('.quiz-option:checked').length;
+                const progressPercentage = (answeredQuestions / totalQuestions) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+            });
+        });
+    </script>
+</body>
+</html>

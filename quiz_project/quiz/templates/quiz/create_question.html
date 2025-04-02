@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a New Question</title>
+    <style>
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-container h1 {
+            margin-bottom: 20px;
+        }
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-container input,
+        .form-container select,
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-container button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Create a New Question</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <h2>Choices</h2>
+            {% for i in "0123"|make_list %}
+                <label for="choice_text_{{ i }}">Choice {{ i|add:1 }}</label>
+                <input type="text" name="choice_text_{{ i }}" id="choice_text_{{ i }}">
+                <label for="is_correct_{{ i }}">
+                    <input type="checkbox" name="is_correct_{{ i }}" id="is_correct_{{ i }}">
+                    Is Correct
+                </label>
+            {% endfor %}
+            <button type="submit">Save Question</button>
+        </form>
+        <a href="{% url 'quiz_home' %}">Back to Quiz Home</a>
+    </div>
+</body>
+</html>
