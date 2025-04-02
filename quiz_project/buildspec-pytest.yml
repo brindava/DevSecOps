@@ -17,7 +17,7 @@ phases:
   build:
     commands:
       - echo "Running tests with pytest..."
-      - pytest --junitxml=test-results.xml --cov=quiz-project  # Adjust project name
+      - pytest --junitxml=test-results.xml --cov=quiz_project  # Adjust project name
  
   post_build:
     commands:
