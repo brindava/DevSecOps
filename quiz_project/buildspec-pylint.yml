@@ -1,0 +1,22 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - apt-get update -y
+      - apt-get install -y python3-pip
+      - pip3 install pylint  # Install Pylint
+
+  pre_build:
+    commands:
+      - echo "Installing project dependencies..."
+      - pip3 install -r requirements.txt
+
+  build:
+    commands:
+      - echo "Running Pylint for Static Code Analysis..."
+      # Run Pylint, ignore C-type warnings, and fail on E-type errors
+      - pylint --disable=C --fail-under=9 $(find weather -name "*.py") || exit 1
+
+artifacts:
+  files: "**/*"
