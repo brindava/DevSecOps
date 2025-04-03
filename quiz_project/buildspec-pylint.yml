@@ -14,9 +14,12 @@ phases:
 
   build:
     commands:
+      - echo "Checking directory structure..."
+      - ls -R  # Debugging step to verify file paths
       - echo "Running Pylint for Static Code Analysis..."
-      # Run Pylint, ignore C-type warnings, and fail on E-type errors
-      - pylint --disable=C --fail-under=9 $(find quiz_project -name "*.py") || exit 1
+      # Ensure we are in the correct directory before running Pylint
+      - cd quiz_project
+      - pylint --disable=C --fail-under=9 $(find . -name "*.py") || exit 1
 
 artifacts:
   files: "**/*"
