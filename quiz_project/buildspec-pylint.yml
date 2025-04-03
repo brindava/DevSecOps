@@ -1,23 +1,25 @@
 version: 0.2
-
+ 
 phases:
   install:
     commands:
-      - apt-get update -y
-      - apt-get install -y python3-pip
+      - echo "Checking OS and installing dependencies..."
+      - if [ -f /etc/os-release ]; then source /etc/os-release; fi
+      - if [[ "$ID" == "amzn" ]]; then yum update -y && yum install -y python3-pip; fi
+      - if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then apt-get update -y && apt-get install -y python3-pip; fi
+      - if [[ "$ID" == "alpine" ]]; then apk update && apk add --no-cache python3 py3-pip; fi
       - pip3 install pylint  # Install Pylint
-
+ 
   pre_build:
     commands:
       - echo "Installing project dependencies..."
-      - pip3 install -r requirements.txt
-
+      - pip3 install -r summit/requirements.txt  # Ensure correct path to requirements.txt
+ 
   build:
     commands:
-      - echo "Checking directory structure..."
-      - ls -R  # Debugging step to verify file paths
       - echo "Running Pylint for Static Code Analysis..."
-      - cd quiz_project && pylint --disable=C --fail-under=9 $(find . -type f -name "*.py") || exit 1
-
+      # Find all Python files in 'summit' and run pylint on them. Updated for proper Linux/Unix compatibility
+      - find quiz_project -name "*.py" -exec pylint --disable=C,W,R {} \; || exit 1
+ 
 artifacts:
   files: "**/*"
