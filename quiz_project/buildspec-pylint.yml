@@ -16,7 +16,7 @@ phases:
     commands:
       - echo "Running Pylint for Static Code Analysis..."
       # Run Pylint, ignore C-type warnings, and fail on E-type errors
-      - pylint --disable=C --fail-under=9 $(find weather -name "*.py") || exit 1
+      - pylint --disable=C --fail-under=9 $(find quiz_project -name "*.py") || exit 1
 
 artifacts:
   files: "**/*"
