@@ -17,9 +17,7 @@ phases:
       - echo "Checking directory structure..."
       - ls -R  # Debugging step to verify file paths
       - echo "Running Pylint for Static Code Analysis..."
-      # Ensure we are in the correct directory before running Pylint
-      - cd quiz_project
-      - pylint --disable=C --fail-under=9 $(find . -name "*.py") || exit 1
+      - cd quiz_project && pylint --disable=C --fail-under=9 $(find . -type f -name "*.py") || exit 1
 
 artifacts:
   files: "**/*"
