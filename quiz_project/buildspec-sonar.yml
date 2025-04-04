@@ -19,7 +19,7 @@ phases:
       - echo "Running SonarQube Analysis..."
       - sonar-scanner -Dsonar.projectKey=cdos \
                       -Dsonar.sources=. \
-                      -Dsonar.host.url=http://54.162.247.181:9000 \
+                      -Dsonar.host.url=http://108.129.88.35:8000/ \
                       -Dsonar.login=squ_0e70284ccf0f30fd09cbbfb0e25f2af5cbac9584
 
 artifacts:
