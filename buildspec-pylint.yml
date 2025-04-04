@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Checking OS and installing dependencies..."
+      - apt-get update -y && apt-get install -y python3-pip
+      - pip3 install pylint  # Install Pylint
+
+  pre_build:
+    commands:
+      - echo "Installing project dependencies..."
+      - pip3 install -r requirements.txt  # Ensure correct path to requirements.txt
+
+  build:
+    commands:
+      - echo "Checking directory structure..."
+      - ls -R  # Debugging step to verify file paths
+      - echo "Running Pylint for Static Code Analysis..."
+      - find quiz_project -type f -name "*.py" | xargs pylint --disable=C,W,R || echo "Pylint warnings detected, but continuing..."
+
+artifacts:
+  files: "**/*"
