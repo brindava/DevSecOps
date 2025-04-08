@@ -21,8 +21,8 @@ urlpatterns = [
     path('delete-question/<int:question_id>/', views.delete_question, name='delete_question'),
     # Quiz (Student) Views
     path('quiz_home/', quiz_home, name='quiz_home'),
-    path('quiz_page/', views.quiz_page, name='quiz_page'),  # Updated from take_quiz
-    path('quiz_result/', views.quiz_result, name='quiz_result'),  # Updated from submit_quiz
+    path('quiz_page/', views.quiz_page, name='quiz_page'), 
+    path('quiz_result/', views.quiz_result, name='quiz_result'), 
 
     # Password Reset
     path('password_reset/', PasswordResetView.as_view(), name='password_reset'),

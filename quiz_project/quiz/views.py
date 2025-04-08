@@ -27,7 +27,7 @@ class SignUpView(View):
 @login_required
 def admin_dashboard(request):
     if request.user.user_type != 'teacher':
-        return render(request, '403.html')  # Forbidden for non-teachers
+        return render(request, '403.html')  
 
     questions = Question.objects.all()
     return render(request, 'quiz/admin_dashboard.html', {'questions': questions})
@@ -37,18 +37,18 @@ def admin_dashboard(request):
 @login_required
 def create_question(request):
     if request.user.user_type != 'teacher':
-        return render(request, '403.html')  # Only teachers can create questions
+        return render(request, '403.html') 
 
     if request.method == 'POST':
         question_form = QuestionForm(request.POST)
         if question_form.is_valid():
             question = question_form.save()
-            for i in range(4):  # Assuming 4 choices
+            for i in range(4):  
                 choice_text = request.POST.get(f'choice_text_{i}')
                 is_correct = request.POST.get(f'is_correct_{i}') == 'on'
                 if choice_text:
                     Choice.objects.create(question=question, text=choice_text, is_correct=is_correct)
-            return redirect('quiz_home')  # Redirect to quiz_home after saving
+            return redirect('quiz_home')  
     else:
         question_form = QuestionForm()
 
@@ -60,7 +60,7 @@ def create_question(request):
 @login_required
 def create_choice(request, question_id):
     if request.user.user_type != 'teacher':
-        return render(request, '403.html')  # Forbidden for non-teachers
+        return render(request, '403.html')  
 
     question = get_object_or_404(Question, id=question_id)
     if request.method == 'POST':
@@ -136,14 +136,14 @@ def forbidden_view(request):
 @login_required
 def edit_question(request, question_id):
     if request.user.user_type != 'teacher':
-        return render(request, '403.html')  # Only teachers can edit questions
+        return render(request, '403.html')  
 
     question = get_object_or_404(Question, id=question_id)
     if request.method == 'POST':
         form = QuestionForm(request.POST, instance=question)
         if form.is_valid():
             form.save()
-            return redirect('quiz_page')  # Redirect to quiz page after editing
+            return redirect('quiz_page') 
     else:
         form = QuestionForm(instance=question)
 
@@ -152,11 +152,11 @@ def edit_question(request, question_id):
 @login_required
 def delete_question(request, question_id):
     if request.user.user_type != 'teacher':
-        return render(request, '403.html')  # Only teachers can delete questions
+        return render(request, '403.html')  
 
     question = get_object_or_404(Question, id=question_id)
     if request.method == 'POST':
         question.delete()
-        return redirect('quiz_page')  # Redirect to quiz page after deleting
+        return redirect('quiz_page')  
 
     return render(request, 'quiz/delete_question.html', {'question': question})

@@ -24,7 +24,7 @@ class QuestionForm(forms.ModelForm):
         Question,
         Choice,
         form=ChoiceForm,
-        extra=4,  # Allow up to 4 choices by default
+        extra=4,  
         can_delete=False
     )
 
