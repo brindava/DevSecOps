@@ -17,6 +17,7 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -28,7 +29,12 @@ SECRET_KEY = 'DJANGO_SECRET_KEY'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'quizapplication-env.eba-w53qxjir.us-east-1.elasticbeanstalk.com',
+    '18.204.233.51',
+    'localhost',
+    '127.0.0.1',
+]
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/quiz_home/'
