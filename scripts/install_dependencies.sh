@@ -1,9 +1,9 @@
 version: 0.0
 os: linux
 files:
-  - source: /    # This refers to the root of your source directory (e.g., all files in your repo).
+  - source: /    
     destination: /var/www/myapp/
-    overwrite: true  # The destination directory on the EC2 instance.
+    overwrite: true  
 
 hooks:
   BeforeInstall:
