@@ -28,7 +28,7 @@ SECRET_KEY = 'DJANGO_SECRET_KEY'
 DEBUG = True
 
 
-ALLOWED_HOSTS = ["quizapplication-env.eba-w53qxjir.us-east-1.elasticbeanstalk.com"]
+ALLOWED_HOSTS = ["*"]
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/quiz_home/'
