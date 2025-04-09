@@ -39,38 +39,30 @@
             margin-bottom: 20px;
             color: #dc3545;
         }
-        .quiz-container form button {
-            padding: 10px;
-            background-color: #007BFF;
-            color: #fff;
+        .teacher-actions {
+            margin-top: 10px;
+        }
+        .teacher-actions a {
+            margin-right: 10px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+        .teacher-actions a:hover {
+            text-decoration: underline;
+        }
+        .teacher-actions form {
+            display: inline;
+        }
+        .teacher-actions button {
+            background-color: #dc3545;
+            color: white;
             border: none;
+            padding: 5px 10px;
             border-radius: 4px;
             cursor: pointer;
         }
-        .quiz-container form button:hover {
-            background-color: #0056b3;
-        }
-        .back-button-container {
-            text-align: left;
-            margin-top: 20px;
-        }
-        .back-button {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-        }
-        .logout-container {
-            text-align: right;
-            margin-top: 20px;
-        }
-        .logout-button {
-            padding: 10px 20px;
-            background-color: #dc3545;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
+        .teacher-actions button:hover {
+            background-color: #c82333;
         }
     </style>
 </head>
@@ -96,6 +88,15 @@
                             </li>
                         {% endfor %}
                     </ul>
+                    {% if user.user_type == 'teacher' %}
+                        <div class="teacher-actions">
+                            <a href="{% url 'edit_question' question.id %}">Edit</a>
+                            <form action="{% url 'delete_question' question.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit">Delete</button>
+                            </form>
+                        </div>
+                    {% endif %}
                 </div>
             {% empty %}
                 <p>No questions available.</p>
