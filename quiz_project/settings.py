@@ -31,7 +31,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'quizapplication-env.eba-w53qxjir.us-east-1.elasticbeanstalk.com',
+    'interactivequiz-env.eba-ej2mmn5s.us-east-1.elasticbeanstalk.com'
     '18.204.233.51',
+    '23.22.235.176'
     'localhost',
     '127.0.0.1',
     '*',
