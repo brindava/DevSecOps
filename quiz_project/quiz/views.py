@@ -34,6 +34,7 @@ def admin_dashboard(request):
         return render(request, '403.html')  
 
     questions = Question.objects.all()
+    print("DEBUG: Rendering admin_dashboard.html")
     return render(request, 'quiz/admin_dashboard.html', {'questions': questions})
 
 
