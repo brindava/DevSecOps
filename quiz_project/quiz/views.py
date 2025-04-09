@@ -22,6 +22,10 @@ class SignUpView(View):
             return redirect('quiz_home')
         return render(request, 'signup.html', {'form': form})
     
+@login_required
+def quiz_page(request):
+    questions = Question.objects.prefetch_related('choices').all()
+    return render(request, 'quiz_page.html', {'questions': questions, 'user': request.user})
 
 # Admin Dashboard for Teachers
 @login_required
@@ -143,11 +147,12 @@ def edit_question(request, question_id):
         form = QuestionForm(request.POST, instance=question)
         if form.is_valid():
             form.save()
-            return redirect('quiz_page') 
+            return redirect('admin_dashboard')  
     else:
         form = QuestionForm(instance=question)
 
     return render(request, 'quiz/edit_question.html', {'form': form})
+
 
 @login_required
 def delete_question(request, question_id):
@@ -157,6 +162,12 @@ def delete_question(request, question_id):
     question = get_object_or_404(Question, id=question_id)
     if request.method == 'POST':
         question.delete()
-        return redirect('quiz_page')  
+        return redirect('admin_dashboard') 
 
     return render(request, 'quiz/delete_question.html', {'question': question})
+
+@login_required
+def quiz_home(request):
+    print(f"User Type: {request.user.user_type}")  # Debugging
+    return render(request, 'quiz_home.html', {'user': request.user})
+
