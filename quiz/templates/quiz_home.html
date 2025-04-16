@@ -39,7 +39,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Welcome, {{ user.username }}!</h1>
+        <h1>Hello, {{ user.username }}!</h1>
         <a href="{% url 'quiz_page' %}" class="btn">Start Quiz</a>
         {% if user.user_type == 'teacher' %}
             <a href="{% url 'create_question' %}" class="btn">Create Question</a>
